@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E7F4F8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Piedmont Pool">
+<title>Piedmont Community Pool — Summer Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --water:#E7F4F8;
+    --tile:#FFFFFF;
+    --ink:#0B2E3B;
+    --ink-soft:#4A6B78;
+    --lap:#1273A2;
+    --lap-deep:#0C5A80;
+    --kid:#F4795B;
+    --rec:#2FA38F;
+    --lesson:#9FB6BF;
+    --closed:#22454F;
+    --rope:#C9DEE6;
+    --now:#FFC53D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--water);
+    color:var(--ink);
+    padding:28px 16px 48px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{max-width:920px;margin:0 auto}
+
+  /* ---------- header ---------- */
+  header{margin-bottom:6px}
+  .eyebrow{
+    font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--lap-deep);margin-bottom:8px;
+  }
+  h1{
+    font-family:'Bricolage Grotesque',sans-serif;
+    font-weight:800;font-size:clamp(28px,6vw,46px);line-height:1.02;
+    letter-spacing:-.01em;
+  }
+  h1 .accent{color:var(--lap)}
+  .wave{display:block;margin:10px 0 14px}
+  .sub{font-size:13.5px;color:var(--ink-soft);max-width:620px;line-height:1.5}
+
+  /* ---------- hours strip ---------- */
+  .hours-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 16px}
+  @media(max-width:640px){.hours-strip{grid-template-columns:repeat(2,1fr)}}
+  .hour-cell{background:var(--tile);border-radius:10px;padding:10px 12px;box-shadow:0 1px 8px rgba(11,46,59,.06)}
+  .hour-cell .d{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px}
+  .hour-cell .t{font-size:12px;color:var(--ink-soft);margin-top:2px}
+  .hour-cell .t strong{color:var(--ink)}
+
+  /* ---------- legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin:6px 0 14px;font-size:12px;font-weight:600}
+  .legend span{display:flex;align-items:center;gap:7px}
+  .chip{width:22px;height:11px;border-radius:3px;flex:none}
+  .chip.lap{background:var(--lap)}
+  .chip.kid{background:var(--kid)}
+  .chip.rec{background:var(--rec)}
+  .chip.lesson{background:repeating-linear-gradient(135deg,var(--lesson) 0 3px,#E3EDF1 3px 6px)}
+  .chip.closed{background:var(--closed)}
+  .chip.now{background:var(--now);width:4px;height:14px;border-radius:2px}
+
+  /* ---------- pool sections ---------- */
+  .pool-section{margin-top:22px}
+  .pool-head{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:10px;
+    border-left:6px solid var(--lap);padding-left:12px;
+  }
+  .pool-section.warm-section .pool-head{border-left-color:var(--kid)}
+  .pool-head h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px}
+  .pool-specs{display:flex;flex-wrap:wrap;gap:6px}
+  .spec{
+    font-size:10.5px;font-weight:600;color:var(--lap-deep);background:#D9ECF4;
+    border-radius:99px;padding:3px 9px;
+  }
+  .warm-section .spec{color:#A8472E;background:#FCE4DC}
+
+  .pool{
+    background:var(--tile);border-radius:14px;padding:18px 16px 8px;
+    box-shadow:0 2px 14px rgba(11,46,59,.07);overflow-x:auto;
+  }
+  .chart{min-width:680px}
+  .axis{display:flex;margin-left:118px;margin-bottom:6px;font-size:10px;font-weight:600;color:var(--ink-soft)}
+  .axis div{flex:1;padding-left:2px}
+
+  .lane{display:flex;align-items:stretch;border-bottom:2px dotted var(--rope);padding:9px 0;border-radius:6px}
+  .lane:last-child{border-bottom:none}
+  .lane.today{background:#FFF9E8;outline:2px solid var(--now);outline-offset:-2px}
+  .lane-label{width:118px;flex:none;display:flex;flex-direction:column;justify-content:center;padding-right:8px}
+  .lane-day{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px}
+  .lane-day .today-tag{
+    display:none;font-size:8.5px;font-weight:700;letter-spacing:.08em;color:#9A6B00;
+    background:var(--now);border-radius:3px;padding:1px 4px;vertical-align:2px;margin-left:4px;
+  }
+  .lane.today .today-tag{display:inline-block}
+  .lane-hours{font-size:10px;color:var(--ink-soft);font-weight:500;margin-top:2px}
+
+  .tracks{flex:1;position:relative}
+  .gridlines{position:absolute;inset:0;display:flex;pointer-events:none}
+  .gridlines div{flex:1;border-left:1px solid #EDF4F7}
+  .nowline{
+    position:absolute;top:-2px;bottom:-2px;width:3px;background:var(--now);
+    border-radius:2px;z-index:3;display:none;box-shadow:0 0 0 1px rgba(255,197,61,.35);
+  }
+  .track{position:relative;height:17px;border-radius:4px;background:#F2F8FA;margin:3px 0}
+  .track .tag{
+    position:absolute;left:0;top:50%;transform:translate(calc(-100% - 6px),-50%);
+    font-size:7.5px;font-weight:700;letter-spacing:.04em;color:var(--ink-soft);text-align:right;
+  }
+  .blk{position:absolute;top:0;bottom:0;border-radius:4px}
+  .blk.lap{background:var(--lap)}
+  .blk.kid{background:var(--kid)}
+  .blk.rec{background:var(--rec)}
+  .blk.lesson{background:repeating-linear-gradient(135deg,var(--lesson) 0 4px,#E3EDF1 4px 8px)}
+  .blk.closed{background:var(--closed);opacity:.85;border-radius:2px}
+  .blk .lbl{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:8.5px;font-weight:700;color:#fff;letter-spacing:.02em;white-space:nowrap;overflow:hidden;
+  }
+  .blk.lesson .lbl{color:#51707C}
+  .chart-note{
+    font-size:11px;font-weight:600;color:var(--ink-soft);
+    margin:10px 4px 8px;line-height:1.5;
+  }
+
+  /* ---------- cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+  @media(max-width:680px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--tile);border-radius:14px;padding:18px 18px 16px;box-shadow:0 2px 14px rgba(11,46,59,.07);border-top:5px solid var(--lap)}
+  .card.kid-card{border-top-color:var(--kid)}
+  .card.lesson-card{border-top-color:var(--lesson)}
+  .card.tips-card{border-top-color:var(--now)}
+  .card h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16.5px;margin-bottom:10px}
+  .card ul{list-style:none}
+  .card li{font-size:13px;line-height:1.45;padding:6px 0 6px 18px;position:relative;border-bottom:1px solid #EFF6F8}
+  .card li:last-child{border-bottom:none}
+  .card li::before{content:"";position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--lap)}
+  .card.kid-card li::before{background:var(--kid)}
+  .card.lesson-card li::before{background:var(--lesson)}
+  .card.tips-card li::before{background:var(--now)}
+  .card li strong{font-weight:700}
+  .card a{color:var(--lap-deep);font-weight:600}
+
+  /* ---------- footer ---------- */
+  .footer{
+    margin-top:20px;background:var(--ink);color:#D6E8EF;border-radius:14px;
+    padding:18px 20px;display:flex;flex-wrap:wrap;gap:16px 32px;font-size:12.5px;line-height:1.6;
+  }
+  .footer b{color:#fff;display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;margin-bottom:2px}
+  .footer a{color:#9BD4EA;font-weight:600;text-decoration:none}
+  .disclaimer{margin-top:12px;font-size:11px;color:var(--ink-soft);padding:0 4px;line-height:1.6}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .pool,.card,.hour-cell{box-shadow:none;border:1px solid #D8E6EC}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div class="eyebrow">Piedmont Community Pool · 777 Magnolia Ave · Summer 2026</div>
+    <h1>Two pools, every swimmer.<br><span class="accent">Find your window.</span></h1>
+    <svg class="wave" width="180" height="12" viewBox="0 0 180 12" fill="none">
+      <path d="M0 6 Q 11 0, 22 6 T 44 6 T 66 6 T 88 6 T 110 6 T 132 6 T 154 6 T 176 6" stroke="#1273A2" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <p class="sub">Summer schedule, <strong>June 8 – July 19</strong>, from the city's published detail tables — lap swim, open swim, rec swim (tubes + diving), lessons, classes, and camps for both pools.</p>
+  </header>
+
+  <div class="hours-strip">
+    <div class="hour-cell"><div class="d">Mon–Thu</div><div class="t"><strong>6a–1p · 2–7p</strong></div></div>
+    <div class="hour-cell"><div class="d">Friday</div><div class="t"><strong>6a–1p · 2–8p</strong></div></div>
+    <div class="hour-cell"><div class="d">Saturday</div><div class="t"><strong>7a–8p</strong></div></div>
+    <div class="hour-cell"><div class="d">Sunday</div><div class="t"><strong>7a–6p</strong></div></div>
+  </div>
+
+  <div class="legend">
+    <span><i class="chip lap"></i>Lap swim</span>
+    <span><i class="chip kid"></i>Open swim</span>
+    <span><i class="chip rec"></i>Rec swim · tubes + diving</span>
+    <span><i class="chip lesson"></i>Lessons / classes / camps</span>
+    <span><i class="chip closed"></i>Closed</span>
+    <span><i class="chip now"></i>Right now</span>
+  </div>
+
+  <!-- ============ COMPETITION POOL ============ -->
+  <div class="pool-section">
+    <div class="pool-head">
+      <h2>Settlemier Competition Pool</h2>
+      <div class="pool-specs">
+        <span class="spec">25yd × 27m</span><span class="spec">12 lap lanes</span>
+        <span class="spec">2 diving boards</span><span class="spec">78–79° cool water</span>
+      </div>
+    </div>
+    <div class="pool">
+      <div class="chart">
+        <div class="axis">
+          <div>6a</div><div>7a</div><div>8a</div><div>9a</div><div>10a</div><div>11a</div><div>12p</div><div>1p</div><div>2p</div><div>3p</div><div>4p</div><div>5p</div><div>6p</div><div>7p</div>
+        </div>
+
+        <!-- MON–THU -->
+        <div class="lane" data-days="1,2,3,4">
+          <div class="lane-label">
+            <div class="lane-day">Mon–Thu <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">6a–1p · 2–7p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">LAP</span>
+              <div class="blk lap" style="left:0%;width:50%"><span class="lbl">lap swim 6a–1p · 8 lanes</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk lap" style="left:57.14%;width:35.72%"><span class="lbl">lap 2–7p · 4 lanes</span></div>
+              <div class="blk closed" style="left:92.86%;width:7.14%"></div>
+            </div>
+            <div class="track"><span class="tag">OPEN</span>
+              <div class="blk kid" style="left:0%;width:50%"><span class="lbl">open swim 6a–1p · 4 lanes</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk kid" style="left:78.57%;width:14.29%"><span class="lbl">5–7p · 2 lanes</span></div>
+              <div class="blk closed" style="left:92.86%;width:7.14%"></div>
+            </div>
+            <div class="track"><span class="tag">REC</span>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk rec" style="left:57.14%;width:21.43%"><span class="lbl">tubes + diving 2–5p</span></div>
+              <div class="blk closed" style="left:92.86%;width:7.14%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRI -->
+        <div class="lane" data-days="5">
+          <div class="lane-label">
+            <div class="lane-day">Friday <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">6a–1p · 2–8p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">LAP</span>
+              <div class="blk lap" style="left:0%;width:50%"><span class="lbl">lap swim 6a–1p · 8 lanes</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk lap" style="left:57.14%;width:42.86%"><span class="lbl">lap 2–8p · 4 lanes</span></div>
+            </div>
+            <div class="track"><span class="tag">OPEN</span>
+              <div class="blk kid" style="left:0%;width:50%"><span class="lbl">open swim 6a–1p · 4 lanes</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+            </div>
+            <div class="track"><span class="tag">REC</span>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk rec" style="left:57.14%;width:42.86%"><span class="lbl">tubes + diving 2–8p</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAT -->
+        <div class="lane" data-days="6">
+          <div class="lane-label">
+            <div class="lane-day">Saturday <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">7a–8p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">LAP</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk lap" style="left:7.14%;width:42.86%"><span class="lbl">lap 7a–1p · 8 lanes</span></div>
+              <div class="blk lap" style="left:50%;width:50%"><span class="lbl">lap 1–8p · 4 lanes</span></div>
+            </div>
+            <div class="track"><span class="tag">OPEN</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk kid" style="left:7.14%;width:42.86%"><span class="lbl">open swim 7a–1p · 4 lanes</span></div>
+            </div>
+            <div class="track"><span class="tag">REC</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk rec" style="left:50%;width:50%"><span class="lbl">tubes + diving 1–8p</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUN -->
+        <div class="lane" data-days="0">
+          <div class="lane-label">
+            <div class="lane-day">Sunday <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">7a–6p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">LAP</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk lap" style="left:7.14%;width:42.86%"><span class="lbl">lap 7a–1p · 8 lanes</span></div>
+              <div class="blk lap" style="left:50%;width:35.71%"><span class="lbl">lap 1–6p · 6 lanes</span></div>
+              <div class="blk closed" style="left:85.71%;width:14.29%"></div>
+            </div>
+            <div class="track"><span class="tag">OPEN</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk kid" style="left:7.14%;width:42.86%"><span class="lbl">open swim 7a–1p · 4 lanes</span></div>
+              <div class="blk closed" style="left:85.71%;width:14.29%"></div>
+            </div>
+            <div class="track"><span class="tag">REC</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk rec" style="left:50%;width:35.71%"><span class="lbl">tubes + diving 1–6p</span></div>
+              <div class="blk closed" style="left:85.71%;width:14.29%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="chart-note">Empty space = the pool is open but that activity isn't scheduled. Rec swim swimmers must pass a swim test to use tubes or diving boards.</p>
+    </div>
+  </div>
+
+  <!-- ============ ACTIVITY POOL ============ -->
+  <div class="pool-section warm-section">
+    <div class="pool-head">
+      <h2>Activity Pool</h2>
+      <div class="pool-specs">
+        <span class="spec">zero-depth beach entry</span><span class="spec">3 lap lanes</span>
+        <span class="spec">83–85° warm water</span><span class="spec">lessons happen here</span>
+      </div>
+    </div>
+    <div class="pool">
+      <div class="chart">
+        <div class="axis">
+          <div>6a</div><div>7a</div><div>8a</div><div>9a</div><div>10a</div><div>11a</div><div>12p</div><div>1p</div><div>2p</div><div>3p</div><div>4p</div><div>5p</div><div>6p</div><div>7p</div>
+        </div>
+
+        <!-- MON–THU -->
+        <div class="lane" data-days="1,2,3,4">
+          <div class="lane-label">
+            <div class="lane-day">Mon–Thu <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">6a–1p · 2–7p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">ZERO-DEPTH</span>
+              <div class="blk kid" style="left:0%;width:50%"><span class="lbl">open swim 6a–1p</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk kid" style="left:57.14%;width:14.29%"><span class="lbl">2–4p</span></div>
+              <div class="blk lesson" style="left:71.43%;width:21.43%"><span class="lbl">swim lessons 4–7p</span></div>
+              <div class="blk closed" style="left:92.86%;width:7.14%"></div>
+            </div>
+            <div class="track"><span class="tag">LAP SIDE</span>
+              <div class="blk lap" style="left:0%;width:19.64%"><span class="lbl">lap 6–8:45a</span></div>
+              <div class="blk lesson" style="left:21.43%;width:28.57%"><span class="lbl">camps 9a–1p</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk kid" style="left:57.14%;width:14.29%"><span class="lbl">open 2–4p</span></div>
+              <div class="blk lesson" style="left:71.43%;width:21.43%"><span class="lbl">swim lessons 4–7p</span></div>
+              <div class="blk closed" style="left:92.86%;width:7.14%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRI -->
+        <div class="lane" data-days="5">
+          <div class="lane-label">
+            <div class="lane-day">Friday <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">6a–1p · 2–8p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">ZERO-DEPTH</span>
+              <div class="blk lesson" style="left:17.86%;width:10.71%"><span class="lbl">8:30–10a</span></div>
+              <div class="blk kid" style="left:28.57%;width:21.43%"><span class="lbl">open 10a–1p</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk kid" style="left:57.14%;width:42.86%"><span class="lbl">open swim 2–8p</span></div>
+            </div>
+            <div class="track"><span class="tag">LAP SIDE</span>
+              <div class="blk lap" style="left:0%;width:19.64%"><span class="lbl">lap 6–8:45a</span></div>
+              <div class="blk lesson" style="left:21.43%;width:28.57%"><span class="lbl">camps 9a–1p</span></div>
+              <div class="blk closed" style="left:50%;width:7.14%"></div>
+              <div class="blk kid" style="left:57.14%;width:42.86%"><span class="lbl">open swim 2–8p</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAT -->
+        <div class="lane" data-days="6">
+          <div class="lane-label">
+            <div class="lane-day">Saturday <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">7a–8p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">ZERO-DEPTH</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk lesson" style="left:7.14%;width:39.29%"><span class="lbl">swim lessons til 12:30p</span></div>
+              <div class="blk kid" style="left:46.43%;width:46.43%"><span class="lbl">open swim 12:30–7p</span></div>
+            </div>
+            <div class="track"><span class="tag">LAP SIDE</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk lesson" style="left:7.14%;width:39.29%"><span class="lbl">aqua 8–9a · lessons til 12:30p</span></div>
+              <div class="blk kid" style="left:46.43%;width:46.43%"><span class="lbl">open swim 12:30–7p</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUN -->
+        <div class="lane" data-days="0">
+          <div class="lane-label">
+            <div class="lane-day">Sunday <span class="today-tag">TODAY</span></div>
+            <div class="lane-hours">7a–6p</div>
+          </div>
+          <div class="tracks">
+            <div class="gridlines"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="nowline"></div>
+            <div class="track"><span class="tag">ZERO-DEPTH</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk lesson" style="left:7.14%;width:39.29%"><span class="lbl">swim lessons til 12:30p</span></div>
+              <div class="blk kid" style="left:46.43%;width:39.28%"><span class="lbl">open swim 12:30–6p</span></div>
+              <div class="blk closed" style="left:85.71%;width:14.29%"></div>
+            </div>
+            <div class="track"><span class="tag">LAP SIDE</span>
+              <div class="blk closed" style="left:0%;width:7.14%"></div>
+              <div class="blk lesson" style="left:7.14%;width:39.29%"><span class="lbl">swim lessons til 12:30p</span></div>
+              <div class="blk kid" style="left:46.43%;width:39.28%"><span class="lbl">open swim 12:30–6p</span></div>
+              <div class="blk closed" style="left:85.71%;width:14.29%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="chart-note">No lap lanes in the warm pool on weekends. Friday morning 8:30–10a is Happy Splashers (parent &amp; baby) in the zero-depth area; Saturday 8–9a is Aqua Conditioning on the lap side. Camps run weekday late mornings on the lap side.</p>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h2>Lap swimmers</h2>
+      <ul>
+        <li><strong>Mornings = 8 lanes</strong> in the Competition Pool until 1p, every day.</li>
+        <li><strong>Afternoons = 4 lanes</strong> (6 on Sunday afternoons), alongside rec swim.</li>
+        <li><strong>Warm-water laps:</strong> 3 lanes in the Activity Pool, Mon–Fri 6–8:45a only.</li>
+        <li>Fri & Sat run until <strong>8pm</strong> — easy evening swims.</li>
+      </ul>
+    </div>
+    <div class="card kid-card">
+      <h2>Families & open swim</h2>
+      <ul>
+        <li><strong>Warm pool, lesson-free:</strong> Mon–Thu 6a–1p & 2–4p · Fri 10a–1p & 2–8p · Sat 12:30–7p · Sun 12:30–6p.</li>
+        <li><strong>Tubes + diving boards daily</strong> during rec swim: Mon–Thu 2–5p · Fri 2–8p · Sat 1–8p · Sun 1–6p (swim test required).</li>
+        <li><strong>Cool-pool open swim</strong> mornings too: 4 lanes until 1p every day.</li>
+        <li>Zero-depth beach entry on the warm side for the littlest swimmers.</li>
+      </ul>
+    </div>
+    <div class="card lesson-card">
+      <h2>Lessons, classes & camps</h2>
+      <ul>
+        <li><strong>Swim lessons:</strong> Mon–Thu 4–7p + Sat/Sun mornings until 12:30p, in the Activity Pool.</li>
+        <li><strong>Camps:</strong> Mon–Fri 9a–1p on the warm pool's lap side.</li>
+        <li><strong>Happy Splashers</strong> (parent &amp; baby): Fri 8:30–10a · <strong>Aqua Conditioning:</strong> Sat 8–9a.</li>
+        <li>Register at <a href="https://rec.us/piedmont">rec.us/piedmont</a>.</li>
+      </ul>
+    </div>
+    <div class="card tips-card">
+      <h2>Beat the crowds</h2>
+      <ul>
+        <li><strong>Early afternoon is peak</strong> — the Activity Pool has hit capacity on busy days.</li>
+        <li><strong>Passholders get priority</strong> over drop-ins when near capacity.</li>
+        <li><strong>Call ahead:</strong> (510) 420-3090 to check capacity.</li>
+        <li>Quietest bets: weekday mornings and the last 2 hours of the day.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div><b>Visit</b>777 Magnolia Ave, Piedmont<br>(510) 420-3090</div>
+    <div><b>Schedules & passes</b><a href="https://piedmont.ca.gov/pool">piedmont.ca.gov/pool</a></div>
+    <div><b>Register for programs</b><a href="https://rec.us/piedmont">rec.us/piedmont</a></div>
+    <div><b>Stay updated</b>Pool news email list via the city site</div>
+  </div>
+
+  <p class="disclaimer">
+    Community-made visualization of the City of Piedmont's published summer schedule, <strong>June 8 – July 19, 2026</strong>. Schedules may shift — confirm at piedmont.ca.gov/pool before making a special trip. Not an official City of Piedmont publication.
+  </p>
+
+</div>
+
+<script>
+function updateNow(){
+  var now = new Date();
+  var day = now.getDay();
+  var hour = now.getHours() + now.getMinutes()/60;
+  var START = 6, END = 20;
+  document.querySelectorAll('.lane').forEach(function(lane){
+    var days = lane.getAttribute('data-days').split(',').map(Number);
+    var line = lane.querySelector('.nowline');
+    if(days.indexOf(day) !== -1){
+      lane.classList.add('today');
+      if(line && hour >= START && hour <= END){
+        var pct = (hour - START) / (END - START) * 100;
+        line.style.left = pct + '%';
+        line.style.display = 'block';
+      } else if(line){ line.style.display = 'none'; }
+    } else {
+      lane.classList.remove('today');
+      if(line){ line.style.display = 'none'; }
+    }
+  });
+}
+updateNow();
+setInterval(updateNow, 60000);
+</script>
+</body>
+</html>
