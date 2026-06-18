@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Piedmont Pool">
-<title>Piedmont Community Pool — Summer Guide</title>
+<title>Piedmont Community Pool — Unofficial Schedule</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -24,6 +24,7 @@
     --closed:#22454F;
     --rope:#C9DEE6;
     --now:#FFC53D;
+    --res:#8B5CF6;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -127,6 +128,20 @@
     font-size:8.5px;font-weight:700;color:#fff;letter-spacing:.02em;white-space:nowrap;overflow:hidden;
   }
   .blk.lesson .lbl{color:#51707C}
+  .blk.res{background:var(--res)}
+  .chip.res{background:var(--res)}
+  .sub a{color:var(--lap-deep);font-weight:600}
+
+  /* ---------- changelog ---------- */
+  .changelog{margin-top:18px;background:var(--tile);border-radius:14px;padding:16px 18px;box-shadow:0 2px 14px rgba(11,46,59,.07);border-top:5px solid var(--rec)}
+  .changelog-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+  .changelog-head b{font-family:'Bricolage Grotesque',sans-serif;font-size:15px}
+  .upd-date{font-size:11px;color:var(--ink-soft);font-weight:500}
+  .changelog ul{list-style:none}
+  .changelog li{font-size:12.5px;line-height:1.5;padding:5px 0 5px 16px;position:relative;border-bottom:1px solid #EFF6F8}
+  .changelog li:last-child{border-bottom:none}
+  .changelog li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--rec)}
+  .changelog a{color:var(--lap-deep);font-weight:600}
   .chart-note{
     font-size:11px;font-weight:600;color:var(--ink-soft);
     margin:10px 4px 8px;line-height:1.5;
@@ -169,13 +184,20 @@
 <div class="sheet">
 
   <header>
-    <div class="eyebrow">Piedmont Community Pool · 777 Magnolia Ave · Summer 2026</div>
-    <h1>Two pools, every swimmer.<br><span class="accent">Find your window.</span></h1>
+    <div class="eyebrow">Piedmont Community Pool · Unofficial Schedule · 777 Magnolia Ave · Summer 2026</div>
+    <h1>Piedmont Community Pool<br><span class="accent">Unofficial Schedule</span></h1>
     <svg class="wave" width="180" height="12" viewBox="0 0 180 12" fill="none">
       <path d="M0 6 Q 11 0, 22 6 T 44 6 T 66 6 T 88 6 T 110 6 T 132 6 T 154 6 T 176 6" stroke="#1273A2" stroke-width="3" stroke-linecap="round"/>
     </svg>
-    <p class="sub">Summer schedule, <strong>June 8 – July 19</strong>, from the city's published detail tables — lap swim, open swim, rec swim (tubes + diving), lessons, classes, and camps for both pools.</p>
+    <p class="sub">Community visualization of the <a href="https://piedmont.ca.gov/services___departments/recreation/piedmont_community_pool" target="_blank">City of Piedmont's published schedule</a> — <strong>Summer 2026: June 8 – July 19.</strong> Lap swim, open swim, rec swim, lessons, classes, and camps for both pools.</p>
   </header>
+
+  <div class="changelog">
+    <div class="changelog-head"><b>Recent updates</b><span class="upd-date">Last updated June 18, 2026</span></div>
+    <ul>
+      <li><strong>June 18, 2026</strong> — Added warm-water lap swim Sat–Sun 7–8a on the Activity Pool lap side (new starting June 20). Added <strong>reserved open swim</strong> windows in the Activity Pool during lesson hours — Mon–Thu 4:30–7p · Sat 9–11:30a · Sun 9a–12p — limited to 50 spots per session, free with normal entry. Reserve at <a href="https://rec.us/piedmont">rec.us/piedmont</a> (passholders get priority). <a href="https://piedmont.ca.gov/news/reserved_open_swim_at_activity_pool_june_2026">Full city announcement →</a></li>
+    </ul>
+  </div>
 
   <div class="hours-strip">
     <div class="hour-cell"><div class="d">Mon–Thu</div><div class="t"><strong>6a–1p · 2–7p</strong></div></div>
@@ -190,6 +212,7 @@
     <span><i class="chip rec"></i>Rec swim · tubes + diving</span>
     <span><i class="chip lesson"></i>Lessons / classes / camps</span>
     <span><i class="chip closed"></i>Closed</span>
+    <span><i class="chip res"></i>Reserved open swim</span>
     <span><i class="chip now"></i>Right now</span>
   </div>
 
@@ -358,6 +381,10 @@
               <div class="blk lesson" style="left:71.43%;width:21.43%"><span class="lbl">swim lessons 4–7p</span></div>
               <div class="blk closed" style="left:92.86%;width:7.14%"></div>
             </div>
+            <div class="track"><span class="tag">RESRV</span>
+              <div class="blk res" style="left:75%;width:17.86%"><span class="lbl">open swim · reserve</span></div>
+              <div class="blk closed" style="left:92.86%;width:7.14%"></div>
+            </div>
           </div>
         </div>
 
@@ -401,8 +428,12 @@
             </div>
             <div class="track"><span class="tag">LAP SIDE</span>
               <div class="blk closed" style="left:0%;width:7.14%"></div>
-              <div class="blk lesson" style="left:7.14%;width:39.29%"><span class="lbl">aqua 8–9a · lessons til 12:30p</span></div>
+              <div class="blk lap" style="left:7.14%;width:7.14%"><span class="lbl">lap 7–8a</span></div>
+              <div class="blk lesson" style="left:14.28%;width:32.15%"><span class="lbl">aqua 8–9a · lessons til 12:30p</span></div>
               <div class="blk kid" style="left:46.43%;width:46.43%"><span class="lbl">open swim 12:30–7p</span></div>
+            </div>
+            <div class="track"><span class="tag">RESRV</span>
+              <div class="blk res" style="left:21.43%;width:17.86%"><span class="lbl">open swim · reserve</span></div>
             </div>
           </div>
         </div>
@@ -424,14 +455,19 @@
             </div>
             <div class="track"><span class="tag">LAP SIDE</span>
               <div class="blk closed" style="left:0%;width:7.14%"></div>
-              <div class="blk lesson" style="left:7.14%;width:39.29%"><span class="lbl">swim lessons til 12:30p</span></div>
+              <div class="blk lap" style="left:7.14%;width:7.14%"><span class="lbl">lap 7–8a</span></div>
+              <div class="blk lesson" style="left:14.28%;width:32.15%"><span class="lbl">swim lessons 8a–12:30p</span></div>
               <div class="blk kid" style="left:46.43%;width:39.28%"><span class="lbl">open swim 12:30–6p</span></div>
+              <div class="blk closed" style="left:85.71%;width:14.29%"></div>
+            </div>
+            <div class="track"><span class="tag">RESRV</span>
+              <div class="blk res" style="left:21.43%;width:21.43%"><span class="lbl">open swim · reserve</span></div>
               <div class="blk closed" style="left:85.71%;width:14.29%"></div>
             </div>
           </div>
         </div>
       </div>
-      <p class="chart-note">No lap lanes in the warm pool on weekends. Friday morning 8:30–10a is Happy Splashers (parent &amp; baby) in the zero-depth area; Saturday 8–9a is Aqua Conditioning on the lap side. Camps run weekday late mornings on the lap side.</p>
+      <p class="chart-note">Warm-pool lap swim available Sat–Sun 7–8a (lap side only, new June 20). Friday 8:30–10a: Happy Splashers (parent &amp; baby) in zero-depth; Saturday 8–9a: Aqua Conditioning on lap side. Camps run weekday late mornings on the lap side. Purple = reserved open swim (50 spots, free with entry); reserve at <a href="https://rec.us/piedmont">rec.us/piedmont</a>.</p>
     </div>
   </div>
 
@@ -441,7 +477,7 @@
       <ul>
         <li><strong>Mornings = 8 lanes</strong> in the Competition Pool until 1p, every day.</li>
         <li><strong>Afternoons = 4 lanes</strong> (6 on Sunday afternoons), alongside rec swim.</li>
-        <li><strong>Warm-water laps:</strong> 3 lanes in the Activity Pool, Mon–Fri 6–8:45a only.</li>
+        <li><strong>Warm-water laps:</strong> 3 lanes in the Activity Pool, Mon–Fri 6–8:45a · <strong>Sat–Sun 7–8a</strong> (new June 20).</li>
         <li>Fri & Sat run until <strong>8pm</strong> — easy evening swims.</li>
       </ul>
     </div>
@@ -460,7 +496,7 @@
         <li><strong>Swim lessons:</strong> Mon–Thu 4–7p + Sat/Sun mornings until 12:30p, in the Activity Pool.</li>
         <li><strong>Camps:</strong> Mon–Fri 9a–1p on the warm pool's lap side.</li>
         <li><strong>Happy Splashers</strong> (parent &amp; baby): Fri 8:30–10a · <strong>Aqua Conditioning:</strong> Sat 8–9a.</li>
-        <li>Register at <a href="https://rec.us/piedmont">rec.us/piedmont</a>.</li>
+        <li><strong>Activity Pool open swim during lesson hours now requires a reservation</strong> (50 spots/session): Mon–Thu 4:30–7p · Sat 9–11:30a · Sun 9a–12p. Book at <a href="https://rec.us/piedmont">rec.us/piedmont</a>.</li>
       </ul>
     </div>
     <div class="card tips-card">
@@ -476,13 +512,13 @@
 
   <div class="footer">
     <div><b>Visit</b>777 Magnolia Ave, Piedmont<br>(510) 420-3090</div>
-    <div><b>Schedules & passes</b><a href="https://piedmont.ca.gov/pool">piedmont.ca.gov/pool</a></div>
+    <div><b>Official pool page</b><a href="https://piedmont.ca.gov/services___departments/recreation/piedmont_community_pool">piedmont.ca.gov/pool</a></div>
     <div><b>Register for programs</b><a href="https://rec.us/piedmont">rec.us/piedmont</a></div>
     <div><b>Stay updated</b>Pool news email list via the city site</div>
   </div>
 
   <p class="disclaimer">
-    Community-made visualization of the City of Piedmont's published summer schedule, <strong>June 8 – July 19, 2026</strong>. Schedules may shift — confirm at piedmont.ca.gov/pool before making a special trip. Not an official City of Piedmont publication.
+    Community-made visualization of the <a href="https://piedmont.ca.gov/services___departments/recreation/piedmont_community_pool">City of Piedmont's published summer schedule</a>, <strong>June 8 – July 19, 2026</strong>. Schedules may shift — confirm at the city's website before making a special trip. Not an official City of Piedmont publication.
   </p>
 
 </div>
